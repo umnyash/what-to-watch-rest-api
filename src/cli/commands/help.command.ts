@@ -14,6 +14,7 @@ export class HelpCommand implements Command {
             cli.js <command> [arguments]
 
         Команды:
+            ${CommandName.Version}:                     # выводит номер версии
             ${CommandName.Help}:                        # выводит этот текст
     `);
   }
