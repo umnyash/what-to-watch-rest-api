@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { readdir } from 'node:fs/promises';
 
 import { Command } from './cli/commands/command.interface.js';
