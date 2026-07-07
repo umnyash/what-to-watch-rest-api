@@ -1,1 +1,1 @@
-export { parseInteger } from './common.js';
+export { getErrorMessage, parseInteger } from './common.js';

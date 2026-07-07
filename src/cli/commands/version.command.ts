@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 
 import { CommandName } from './command-name.enum.js';
 import { Command } from './command.interface.js';
+import { getErrorMessage } from '../../shared/utils/index.js';
 
 type PackageJSONConfig = {
   version: string;
@@ -30,10 +31,7 @@ export class VersionCommand implements Command {
       console.info(version);
     } catch (err: unknown) {
       console.error(`Failed to read version from ${this.FILE_PATH}`);
-
-      if (err instanceof Error) {
-        console.error(err.message);
-      }
+      console.error(getErrorMessage(err));
     }
   }
 
