@@ -1,5 +1,26 @@
+export function generateRandomNumber(min: number, max: number, fractionDigits = 0): number {
+  const scale = Math.pow(10, fractionDigits);
+  const scaledMin = min * scale;
+  const scaledMax = max * scale;
+
+  return (Math.floor(Math.random() * (scaledMax + 1 - scaledMin)) + scaledMin) / scale;
+}
+
 export function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : '';
+}
+
+export function getRandomItem<T>(items: T[]): T {
+  return items[generateRandomNumber(0, items.length - 1)];
+}
+
+export function getRandomItems<T>(items: T[], count: number): T[] {
+  if (count >= items.length) {
+    return items;
+  }
+
+  const start = generateRandomNumber(0, items.length - count);
+  return items.slice(start, start + count);
 }
 
 export function parseInteger(string: string): number {

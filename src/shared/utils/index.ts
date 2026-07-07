@@ -1,1 +1,7 @@
-export { getErrorMessage, parseInteger } from './common.js';
+export {
+  generateRandomNumber,
+  getErrorMessage,
+  getRandomItem,
+  getRandomItems,
+  parseInteger,
+} from './common.js';
