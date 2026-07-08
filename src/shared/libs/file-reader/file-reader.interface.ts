@@ -1,4 +1,3 @@
-export interface FileReader<T> {
-  read(): void;
-  parse(): T[];
+export interface FileReader {
+  read(): Promise<void>;
 }

@@ -1,3 +1,3 @@
 export interface Mapper<T> {
-  map(data: string[][]): T[];
+  map(data: string[]): T;
 }

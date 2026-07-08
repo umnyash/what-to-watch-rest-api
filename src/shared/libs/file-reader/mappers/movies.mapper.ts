@@ -3,11 +3,7 @@ import { Mapper } from './mapper.interface.js';
 import { parseInteger } from '../../../utils/index.js';
 
 export class MoviesMapper implements Mapper<Movie> {
-  public map(data: string[][]): Movie[] {
-    return data.map(this.mapItem.bind(this));
-  }
-
-  private mapItem(values: string[]): Movie {
+  public map(values: string[]): Movie {
     const [
       title,
       description,

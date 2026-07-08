@@ -36,11 +36,4 @@ export class CSVParser {
     values.push(currentValue);
     return values;
   }
-
-  static parse(rawData: string): string[][] {
-    return rawData
-      .split('\n')
-      .filter((row) => row.trim())
-      .map(CSVParser.parseRow.bind(CSVParser));
-  }
 }
