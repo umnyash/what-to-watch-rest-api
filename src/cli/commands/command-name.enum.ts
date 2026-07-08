@@ -1,4 +1,5 @@
 export const CommandName = {
+  Generate: '--generate',
   Help: '--help',
   Import: '--import',
   Version: '--version',
