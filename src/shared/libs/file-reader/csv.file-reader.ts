@@ -3,7 +3,6 @@ import { createReadStream } from 'node:fs';
 
 import { FileReaderEventName } from './file-reader-event-name.enum.js';
 import { FileReader } from './file-reader.interface.js';
-import { Mapper } from './mappers/mapper.interface.js';
 import { CSVParser } from './csv.parser.js';
 
 export class CSVFileReader<T> extends EventEmitter implements FileReader {
@@ -11,7 +10,7 @@ export class CSVFileReader<T> extends EventEmitter implements FileReader {
 
   constructor(
     private readonly fileName: string,
-    private readonly mapper: Mapper<T>,
+    private readonly mapRow: (values: string[]) => T,
   ) {
     super();
   }
@@ -33,7 +32,7 @@ export class CSVFileReader<T> extends EventEmitter implements FileReader {
         remainingData = remainingData.slice(lineSeparatorIndex + 1);
         importedRowsCount++;
 
-        const record = this.mapper.map(CSVParser.parseRow(completeRow));
+        const record = this.mapRow(CSVParser.parseRow(completeRow));
         this.emit(FileReaderEventName.Line, record);
       }
     }
