@@ -1,10 +1,9 @@
-import { appendFile } from 'node:fs/promises';
-
 import { MockServerData } from '../../shared/types/index.js';
 import { CommandName } from './command-name.enum.js';
 import { Command } from './command.interface.js';
 import { getErrorMessage, parseInteger } from '../../shared/utils/index.js';
 import { CSVMovieGenerator } from '../../shared/libs/movie-generator/index.js';
+import { CSVFileWriter } from '../../shared/libs/file-writer/index.js';
 
 function isMockServerData(data: unknown): data is MockServerData {
   const expectedKeys = ['titles', 'genres', 'descriptions', 'names'];
@@ -68,13 +67,10 @@ export class GenerateCommand implements Command {
 
   private async write(filePath: string, moviesCount: number) {
     const csvMovieGenerator = new CSVMovieGenerator(this.basicData);
+    const csvFileWriter = new CSVFileWriter(filePath);
 
     for (let i = 0; i < moviesCount; i++) {
-      await appendFile(
-        filePath,
-        `${csvMovieGenerator.generate()}\n`,
-        { encoding: 'utf-8' },
-      );
+      await csvFileWriter.write(csvMovieGenerator.generate());
     }
   }
 }
