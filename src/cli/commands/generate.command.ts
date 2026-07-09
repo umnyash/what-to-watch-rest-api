@@ -4,6 +4,7 @@ import { Command } from './command.interface.js';
 import { getErrorMessage, parseInteger } from '../../shared/utils/index.js';
 import { CSVMovieGenerator } from '../../shared/libs/movie-generator/index.js';
 import { CSVFileWriter } from '../../shared/libs/file-writer/index.js';
+import { cliStyles } from '../cli.styles.js';
 
 function isMockServerData(data: unknown): data is MockServerData {
   const expectedKeys = ['titles', 'genres', 'descriptions', 'names'];
@@ -41,10 +42,10 @@ export class GenerateCommand implements Command {
     try {
       await this.loadBasicData(url);
       await this.write(filePath, moviesCount);
-      console.info(`File ${filePath} was created!`);
+      console.info(cliStyles.success(`File ${filePath} was created!`));
     } catch (err: unknown) {
-      console.error('Can\'t generate data.');
-      console.error(getErrorMessage(err));
+      console.error(cliStyles.error('Can\'t generate data.'));
+      console.error(cliStyles.error(getErrorMessage(err)));
     }
   }
 
@@ -55,11 +56,11 @@ export class GenerateCommand implements Command {
       const response = await fetch(url);
       data = await response.json();
     } catch {
-      throw new Error(`Can't load data from ${url}`);
+      throw new Error(cliStyles.error(`Can't load data from ${url}`));
     }
 
     if (!isMockServerData(data)) {
-      throw new Error('Invalid data from server');
+      throw new Error(cliStyles.error('Invalid data from server'));
     }
 
     this.basicData = data;

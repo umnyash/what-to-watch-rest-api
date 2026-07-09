@@ -1,5 +1,6 @@
 import { CommandName } from './command-name.enum.js';
 import { Command } from './command.interface.js';
+import { cliStyles } from '../cli.styles.js';
 
 export class HelpCommand implements Command {
   public getName(): CommandName {
@@ -8,16 +9,16 @@ export class HelpCommand implements Command {
 
   public async execute(..._parameters: string[]): Promise<void> {
     console.info(`
-        Программа для подготовки данных для REST API сервера
+        ${cliStyles.heading('Программа для подготовки данных для REST API сервера')}
 
         Использование:
-            cli.js <command> [arguments]
+            ${cliStyles.accent('cli.js')} <${cliStyles.commandName('command')}> [${cliStyles.commandArguments('arguments')}]
 
         Команды:
-            ${CommandName.Version}:                     # выводит номер версии
-            ${CommandName.Help}:                        # выводит этот текст
-            ${CommandName.Import} <path>:               # импортирует данные из TSV
-            ${CommandName.Generate} <n> <path> <url>:   # генерирует заданное количество тестовых данных
+            ${cliStyles.commandName(CommandName.Version)}:                     # выводит номер версии
+            ${cliStyles.commandName(CommandName.Help)}:                        # выводит этот текст
+            ${cliStyles.commandName(CommandName.Import)} <${cliStyles.commandArguments('path')}>:               # импортирует данные из TSV
+            ${cliStyles.commandName(CommandName.Generate)} <${cliStyles.commandArguments('n')}> <${cliStyles.commandArguments('path')}> <${cliStyles.commandArguments('url')}>:   # генерирует заданное количество тестовых данных
     `);
   }
 }

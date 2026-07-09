@@ -1,6 +1,7 @@
 import { CommandName } from './commands/command-name.enum.js';
 import { Command } from './commands/command.interface.js';
 import { CommandParser } from './command.parser.js';
+import { cliStyles } from './cli.styles.js';
 
 type CommandCollection = Record<CommandName, Command>;
 
@@ -18,7 +19,7 @@ export class CLIApplication {
   public registerCommands(commandList: Command[]): void {
     commandList.forEach((command) => {
       if (this.commands[command.getName()]) {
-        throw new Error(`Command ${command.getName()} is already registered.`);
+        throw new Error(cliStyles.error(`Command ${command.getName()} is already registered.`));
       }
 
       this.commands[command.getName()] = command;
@@ -33,14 +34,14 @@ export class CLIApplication {
 
   private getCommand(commandName: string): Command {
     if (!isCommandName(commandName)) {
-      console.error(`Неизвестная команда: "${commandName}".`);
+      console.error(cliStyles.error(`Неизвестная команда: "${commandName}".`));
       return this.getDefaultCommand();
     }
 
     const command = this.commands[commandName];
 
     if (!command) {
-      throw new Error(`Command "${commandName}" is not registered.`);
+      throw new Error(cliStyles.error(`Command "${commandName}" is not registered.`));
     }
 
     return command;
@@ -50,7 +51,7 @@ export class CLIApplication {
     const command = this.commands[this.defaultCommandName];
 
     if (!command) {
-      throw new Error(`Default command ("${this.defaultCommandName}") is not registered.`);
+      throw new Error(cliStyles.error(`Default command ("${this.defaultCommandName}") is not registered.`));
     }
 
     return command;

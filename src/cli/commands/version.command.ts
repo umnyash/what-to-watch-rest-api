@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { CommandName } from './command-name.enum.js';
 import { Command } from './command.interface.js';
 import { getErrorMessage } from '../../shared/utils/index.js';
+import { cliStyles } from '../cli.styles.js';
 
 type PackageJSONConfig = {
   version: string;
@@ -30,8 +31,8 @@ export class VersionCommand implements Command {
       const version = this.readVersion();
       console.info(version);
     } catch (err: unknown) {
-      console.error(`Failed to read version from ${this.FILE_PATH}`);
-      console.error(getErrorMessage(err));
+      console.error(cliStyles.error(`Failed to read version from ${this.FILE_PATH}`));
+      console.error(cliStyles.error(getErrorMessage(err)));
     }
   }
 
@@ -40,7 +41,7 @@ export class VersionCommand implements Command {
     const importedContent: unknown = JSON.parse(jsonContent);
 
     if (!isPackageJSONConfig(importedContent)) {
-      throw new Error('Failed to parse json content.');
+      throw new Error(cliStyles.error('Failed to parse json content.'));
     }
 
     return importedContent.version;

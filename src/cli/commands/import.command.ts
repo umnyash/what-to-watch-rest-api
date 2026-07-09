@@ -3,6 +3,7 @@ import { CommandName } from './command-name.enum.js';
 import { Command } from './command.interface.js';
 import { CSVFileReader, FileReaderEventName, mapMovieRow } from '../../shared/libs/file-reader/index.js';
 import { getErrorMessage } from '../../shared/utils/index.js';
+import { cliStyles } from '../cli.styles.js';
 
 export class ImportCommand implements Command {
   public getName(): CommandName {
@@ -18,8 +19,8 @@ export class ImportCommand implements Command {
       fileReader.addListener(FileReaderEventName.End, this.onReadingEnd.bind(this));
       await fileReader.read();
     } catch (err: unknown) {
-      console.error(`Can't import data from file: ${fileName}`);
-      console.error(getErrorMessage(err));
+      console.error(cliStyles.error(`Can't import data from file: ${fileName}`));
+      console.error(cliStyles.error(getErrorMessage(err)));
     }
   }
 
@@ -28,6 +29,6 @@ export class ImportCommand implements Command {
   }
 
   private onReadingEnd(count: number): void {
-    console.info(`${String(count)} rows imported.`);
+    console.info(cliStyles.success(`${String(count)} rows imported.`));
   }
 }
