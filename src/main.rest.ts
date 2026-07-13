@@ -4,7 +4,7 @@ import { RestConfig } from './shared/libs/config/index.js';
 
 async function bootstrap() {
   const logger = new PinoLogger();
-  const config = new RestConfig(process.env);
+  const config = new RestConfig(logger);
 
   const application = new RestApplication(config, logger);
   await application.init();
