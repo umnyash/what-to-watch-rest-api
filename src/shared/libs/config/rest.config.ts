@@ -1,29 +1,34 @@
-import { config } from 'dotenv';
+import { config as loadEnv } from 'dotenv';
+import convict from 'convict';
 
 import { Config } from './config.interface.js';
 import { Logger } from '../logger/index.js';
+import { RestSchema, restConfigSchema } from './rest.schema.js';
 
-export class RestConfig implements Config {
-  private readonly values: NodeJS.ProcessEnv;
+export class RestConfig implements Config<RestSchema> {
+  private readonly values: RestSchema;
 
   constructor(
     private readonly logger: Logger,
   ) {
-    const { error, parsed } = config();
+    const { error } = loadEnv();
 
     if (error) {
       throw new Error('Unable to load the .env file. Ensure that it exists and is readable.');
     }
 
-    if (!parsed) {
-      throw new Error('Failed to parse the .env file.');
-    }
+    const config = convict<RestSchema>(restConfigSchema);
 
-    this.values = parsed;
+    config.validate({
+      allowed: 'strict',
+      output: this.logger.info.bind(this.logger),
+    });
+
+    this.values = config.getProperties();
     this.logger.info('.env file parsed successfully.');
   }
 
-  public get(key: string): string | undefined {
+  public get<T extends keyof RestSchema>(key: T): RestSchema[T] {
     return this.values[key];
   }
 }
