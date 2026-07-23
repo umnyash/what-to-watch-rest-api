@@ -5,5 +5,6 @@ export const Component = {
   GenreService: Symbol.for('GenreService'),
   Logger: Symbol.for('Logger'),
   MovieModel: Symbol.for('MovieModel'),
+  MovieService: Symbol.for('MovieService'),
   RestApplication: Symbol.for('RestApplication'),
 } as const;
