@@ -33,7 +33,10 @@ export class CSVFileReader<T> extends EventEmitter implements FileReader {
         importedRowsCount++;
 
         const record = this.mapRow(CSVParser.parseRow(completeRow));
-        this.emit(FileReaderEventName.Line, record);
+
+        await new Promise((resolve) => {
+          this.emit(FileReaderEventName.Line, record, resolve);
+        });
       }
     }
 
